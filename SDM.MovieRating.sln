@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDM.MovieRating", "SDM.MovieRating\SDM.MovieRating.csproj", "{F8FEB99C-B62A-4C54-92A8-88266718ABCC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject1", "XUnitTestProject1\XUnitTestProject1.csproj", "{5A72605C-220A-4228-AE19-86FA80044AF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F8FEB99C-B62A-4C54-92A8-88266718ABCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8FEB99C-B62A-4C54-92A8-88266718ABCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8FEB99C-B62A-4C54-92A8-88266718ABCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A72605C-220A-4228-AE19-86FA80044AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A72605C-220A-4228-AE19-86FA80044AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A72605C-220A-4228-AE19-86FA80044AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A72605C-220A-4228-AE19-86FA80044AF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
