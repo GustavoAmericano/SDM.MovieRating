@@ -3,11 +3,11 @@ using SDM.MovieRating.BE;
 
 namespace SDM.MovieRating.DAL
 {
-    public class DataContext
+    public class DataContext : IDataContext
     {
         public List<MovieReview> MovieReviews { get; set; }
-        public Dictionary<int, List<MovieReview>> Movies;
-        public Dictionary<int, List<MovieReview>> Reviewers;
+        public Dictionary<int, List<MovieReview>> Movies { get; set; }
+        public Dictionary<int, List<MovieReview>> Reviewers { get; set; }
 
         public DataContext()
         {

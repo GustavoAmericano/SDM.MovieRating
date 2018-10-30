@@ -16,28 +16,37 @@ namespace MovieRatingTest.BLL
 
 
 
-        private IReviewerLogic logic = new ReviewerLogic();
 
         [Fact]
         public void GetNumberOfReviewsFromReviewerTest()
         {
+            var mock = new Mock<IDataContext>();
 
+            IReviewerLogic reviewerLogic = new ReviewerLogic(mock.Object);
+            mock.SetupGet(dat => dat.Reviewers).Returns(() => _reviewers);
+
+
+            int reviewer1Count = reviewerLogic.GetReviews(1).Count;
+            int reviewer2Count = reviewerLogic.GetReviews(2).Count;
+            int reviewer3Count = reviewerLogic.GetReviews(3).Count;
+            Assert.Equal(3, reviewer1Count);
+            Assert.Equal(3, reviewer2Count);
+            Assert.Equal(1, reviewer3Count);
         }
 
         private static Dictionary<int, List<MovieReview>> GenerateData()
         {
-            Random rnd = new Random();
-            List<MovieReview> reviews = new List<MovieReview>();
-            for (int i = 0; i < 100; i++)
+            List<MovieReview> reviews = new List<MovieReview>
             {
-                reviews.Add(new MovieReview()
-                {
-                    Date = DateTime.Now.AddDays(rnd.Next(0, 100)),
-                    MovieId = rnd.Next(0, 100),
-                    Rating = rnd.Next(0, 10),
-                    ReviewerId = rnd.Next(0, 10)
-                });
-            }
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 3},
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 2}
+            };
+
 
             Dictionary<int, List<MovieReview>> Reviewers = new Dictionary<int, List<MovieReview>>();
             foreach (var r in reviews)
