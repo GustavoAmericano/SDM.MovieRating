@@ -3,12 +3,12 @@ using Xunit;
 
 namespace MovieRatingTest.DAL
 {
-    public class FakeDBTest
+    public class DataContextTest
     {
         [Fact]
         public void TestDataExistOnInitializationSmileyFace()
         {
-            FakeDB db = new FakeDB();
+            DataContext db = new DataContext();
             Assert.NotEmpty(db.MovieReviews);
             Assert.NotEmpty(db.Movies);
             Assert.NotEmpty(db.Reviewers);

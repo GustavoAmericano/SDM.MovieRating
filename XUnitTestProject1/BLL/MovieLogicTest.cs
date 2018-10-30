@@ -1,6 +1,6 @@
 ﻿namespace MovieRatingTest.BLL
 {
-    public class ReadData
+    public class MovieLogicTest
     {
         
     }
