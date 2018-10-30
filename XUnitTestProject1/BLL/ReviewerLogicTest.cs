@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using SDM.MovieRating.BE;
 using SDM.MovieRating.BLL.Implementation;
 using SDM.MovieRating.BLL.Interfaces;
 using SDM.MovieRating.DAL;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace MovieRatingTest.BLL
 {
-
     public class ReviewerLogicTest
     {
         private Dictionary<int, List<MovieReview>> _reviewers = GenerateData();
 
+        private readonly ITestOutputHelper Output;
 
+        public ReviewerLogicTest(ITestOutputHelper output)
+        {
+            Output = output;
+        }
 
 
         [Fact]
@@ -25,7 +31,7 @@ namespace MovieRatingTest.BLL
             int reviewer2Count = reviewerLogic.GetReviews(2).Count;
             int reviewer3Count = reviewerLogic.GetReviews(3).Count;
             Assert.Equal(3, reviewer1Count);
-            Assert.Equal(3, reviewer2Count);
+            Assert.Equal(4, reviewer2Count);
             Assert.Equal(1, reviewer3Count);
         }
 
@@ -46,6 +52,24 @@ namespace MovieRatingTest.BLL
 
             Assert.Equal(2, count);
         }
+
+        //8. What reviewer(s) had done most reviews?
+        [Fact]
+        public void ReviewerWithMostReviewsDoneTest()
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+
+            List<int> revIds = reviewerLogic.GetReviewerWithMostReviewes();
+
+            foreach (var pair in revIds)
+            {
+                Output.WriteLine($"Id {pair}");
+            }
+
+            Assert.Single(revIds);
+            Assert.Equal(2, revIds[0]);
+        }
+
         private IReviewerLogic GetReviewerLogic()
         {
             var mock = new Mock<IDataContext>();
@@ -61,10 +85,13 @@ namespace MovieRatingTest.BLL
                 new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 1},
                 new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 2, ReviewerId = 1},
                 new MovieReview() {Date = DateTime.Now, Rating = 1, MovieId = 3, ReviewerId = 1},
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 4, ReviewerId = 3},
+
                 new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 2},
                 new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 2, ReviewerId = 2},
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 3, ReviewerId = 2}
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 3, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now, Rating = 3, MovieId = 4, ReviewerId = 2},
+
+                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 4, ReviewerId = 3},
             };
 
 

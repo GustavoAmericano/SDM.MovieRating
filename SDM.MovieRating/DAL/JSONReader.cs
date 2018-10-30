@@ -9,7 +9,7 @@ namespace SDM.MovieRating.DAL
 {
     public class JSONReader
     {
-        private const string FILE_NAME = @"C:\Users\kenne\Downloads\ratings.json"; // Change the path
+        private const string FILE_NAME = @"C:\Users\Surftown lenovo\Desktop\ratings.json"; // Change the path
 
         public List<MovieReview> ReadJSON()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using SDM.MovieRating.BE;
 using SDM.MovieRating.BLL.Interfaces;
@@ -35,6 +36,25 @@ namespace SDM.MovieRating.BLL.Implementation
         public int GetTimesRatingGiven(int reviewerId, int rating)
         {
             return GetReviews(reviewerId).Count(x => x.Rating == rating);
+        }
+
+        public List<int> GetReviewerWithMostReviewes()
+        {
+            var pairs = _context.Reviewers.OrderByDescending(rev => rev.Value.Count).ToDictionary(key => key.Key, val => val.Value.Count);
+            
+            List<int> topIds = new List<int>();
+            
+            int topCount = pairs[pairs.Keys.First()];
+            
+            pairs.ToList().ForEach(kv =>
+            {
+                if (kv.Value < topCount) return;
+                else topIds.Add(kv.Key);
+            });
+
+            return topIds;
+            
+            
         }
     }
 }
