@@ -19,5 +19,22 @@ namespace SDM.MovieRating.BLL.Implementation
         {
             return _context.Reviewers[reviewerId];
         }
+
+        public int GetAverageRating(int reviewerId)
+        {
+            int count = 0;
+            int avg = 0;
+            GetReviews(reviewerId).ForEach(rev =>
+            {
+                count++;
+                avg += rev.Rating;
+            });
+            return avg / count;
+        }
+
+        public int GetTimesRatingGiven(int reviewerId, int rating)
+        {
+            return GetReviews(reviewerId).Count(x => x.Rating == rating);
+        }
     }
 }
