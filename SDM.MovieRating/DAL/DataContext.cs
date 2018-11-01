@@ -32,5 +32,11 @@ namespace SDM.MovieRating.DAL
                 Movies[m.MovieId].Add(m);
             }
         }
+
+        public DataContext GetContext()
+        {
+            return this;
+        }
+        
     }
 }
