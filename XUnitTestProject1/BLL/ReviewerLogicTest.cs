@@ -35,12 +35,32 @@ namespace MovieRatingTest.BLL
             Assert.Equal(1, reviewer3Count);
         }
 
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(9999)]
+        public void GetNumberOfReviewsFromReviewerBadIdTest(int id)
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+            int reviewerCount = reviewerLogic.GetReviews(id).Count;
+            Assert.Equal(0, reviewerCount);
+        }
+
         [Fact]
         public void GetAverageRatingFromReviewerTest()
         {
             IReviewerLogic reviewerLogic = GetReviewerLogic();
             int avg = reviewerLogic.GetAverageRating(1);
             Assert.Equal(3, avg);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(9999)]
+        public void GetAverageRatingFromReviewerBadIdTest(int id)
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+            int avg = reviewerLogic.GetAverageRating(id);
+            Assert.Equal(0, avg);
         }
 
         [Fact]
@@ -53,26 +73,41 @@ namespace MovieRatingTest.BLL
             Assert.Equal(2, count);
         }
 
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(9999)]
+        public void GetTimesSameGradingFromReviewerBadIdTest(int id)
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+            int count = reviewerLogic.GetTimesRatingGiven(id, 5);
+
+            Assert.Equal(0, count);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(6)]
+        public void GetTimesSameGradingFromReviewerBadRateTest(int rate)
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+            int count = reviewerLogic.GetTimesRatingGiven(1, rate);
+            Assert.Equal(0, count);
+        }
+
         //8. What reviewer(s) had done most reviews?
         [Fact]
         public void ReviewerWithMostReviewsDoneTest()
         {
             IReviewerLogic reviewerLogic = GetReviewerLogic();
-
             List<int> revIds = reviewerLogic.GetReviewerWithMostReviewes();
-
-            foreach (var pair in revIds)
-            {
-                Output.WriteLine($"Id {pair}");
-            }
 
             Assert.Single(revIds);
             Assert.Equal(2, revIds[0]);
         }
-        
+
         //10. On input N, what are the movies that reviewer N has reviewed? The list should
         //be sorted decreasing by rate first, and date secondly.
-        
+
         [Fact]
         public void GetListOfNReviewedMoviesTest()
         {
@@ -82,6 +117,17 @@ namespace MovieRatingTest.BLL
             Assert.Equal(3,reviews.Count);
             Assert.Equal(2, reviews[0].MovieId);
             Assert.Equal(3, reviews[2].MovieId);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(9999)]
+        public void GetListOfNReviewedMoviesBadIdTest(int id)
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+            List<MovieReview> reviews = reviewerLogic.GetReviewedMovies(id, 3);
+
+            Assert.Null(reviews);
         }
 
         private IReviewerLogic GetReviewerLogic()

@@ -38,6 +38,16 @@ namespace MovieRatingTest.BLL
             count = movieLogic.GetReviews(4).Count;
             Assert.Equal(1, count);
         }
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(9999)]
+        public void MoviesReviewsCountBadIdTest(int id)
+        {
+            IMovieLogic movieLogic = GetMovieLogic();
+
+            int count = movieLogic.GetReviews(id).Count;
+            Assert.Equal(0, count);
+        }
 
         //5. On input N, what is the average rate the movie N had received?
         [Fact]
@@ -50,6 +60,19 @@ namespace MovieRatingTest.BLL
             Assert.Equal(5, avg);
         }
 
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(99999)]
+        public void MovieAverageRatingBadIdTest(int id)
+        {
+            IMovieLogic movieLogic = GetMovieLogic();
+            int avg = movieLogic.GetAverageRating(id);
+
+            Assert.Equal(0, avg);
+        }
+
+
+
         //6. On input N and G, how many times had movie N received grade G?
         [Fact]
         public void GetTimesSameGradingFromMovieTest()
@@ -61,6 +84,30 @@ namespace MovieRatingTest.BLL
             Assert.Equal(3, count);
         }
 
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(99999)]
+        public void GetTimesSameGradingFromMovieBadIdTest(int id)
+        {
+            IMovieLogic movieLogic = GetMovieLogic();
+
+            int count = movieLogic.GetTimesRatingGiven(id, 5);
+
+            Assert.Equal(0, count);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(6)]
+        public void GetTimesSameGradingFromMovieGradeOutOfRangeTest(int id)
+        {
+            IMovieLogic movieLogic = GetMovieLogic();
+
+            int count = movieLogic.GetTimesRatingGiven(id, 5);
+
+            Assert.Equal(0, count);
+        }
+
         //7. What is the id(s) of the movie(s) with the highest number of top rates (5)?
         [Fact]
         public void TopMovieIdsWithMostTopRatingTest()
@@ -69,10 +116,6 @@ namespace MovieRatingTest.BLL
 
             List<int> movieIds = movieLogic.GetTopRatedMovies();
 
-            foreach (var pair in movieIds)
-            {
-                Output.WriteLine($"Id {pair}");
-            }
 
             Assert.Equal(2, movieIds.Count);
             Assert.Equal(1, movieIds[0]);
@@ -87,13 +130,7 @@ namespace MovieRatingTest.BLL
             
             List<int> movieIds = movieLogic.GetTopMovies(2);
 
-            movieIds.ForEach(x =>
-            {
-                Output.WriteLine($"Id {x}");
-            });
-            
             Assert.Equal(2, movieIds.Count);
-
         }
         
         
@@ -109,7 +146,17 @@ namespace MovieRatingTest.BLL
             Assert.Equal(4, reviews[0].ReviewerId);
             Assert.Equal(2, reviews[2].ReviewerId);
         }
-        
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(9999)]
+        public void GetListOfReviewersBadMovieIdTest(int mId)
+        {
+            IMovieLogic movieLogic = GetMovieLogic();
+            List<MovieReview> reviews = movieLogic.GetListOfReviewers(mId, 3);
+
+            Assert.Null(reviews);
+        }
+
         private IMovieLogic GetMovieLogic()
         {
             var mock = new Mock<IDataContext>();
