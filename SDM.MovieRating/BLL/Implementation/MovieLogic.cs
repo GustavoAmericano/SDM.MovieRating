@@ -19,16 +19,27 @@ namespace SDM.MovieRating.BLL.Implementation
             _context = context;
         }
 
+        /// <summary>
+        /// Returns a list of all reviews for a movie
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <returns>A list of reviews, or an empty list if none were found</returns>
         public List<MovieReview> GetReviews(int movieId)
         {
+            if (!_context.Movies.ContainsKey(movieId)) return new List<MovieReview>();
             return _context.Movies[movieId];
         }
-
+        /// <summary>
+        /// Returns the average rating of a movie
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <returns>the average rating, 0 if none were found</returns>
         public int GetAverageRating(int movieId)
         {
+            if (!_context.Movies.ContainsKey(movieId)) return 0;
+
             int avg = 0;
             int count = 0;
-
             GetReviews(movieId).ForEach(mov =>
             {
                 count++;
@@ -38,11 +49,22 @@ namespace SDM.MovieRating.BLL.Implementation
             return avg / count;
         }
 
+        /// <summary>
+        /// Returns the amount of times a movie has received a specific rating.
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <param name="rating"></param>
+        /// <returns>The amount of times the movie was rated N, 0 if none were found</returns>
         public int GetTimesRatingGiven(int movieId, int rating)
         {
+            if (!_context.Movies.ContainsKey(movieId)) return 0;
             return GetReviews(movieId).Count(mov => mov.Rating == rating);
         }
 
+        /// <summary>
+        /// Retuns a list of movieId's based on the top rated movie(s).
+        /// </summary>
+        /// <returns>A list of movieId's</returns>
         public List<int> GetTopRatedMovies()
         {
             // Order by single kvp's values which are 5 only
@@ -57,6 +79,11 @@ namespace SDM.MovieRating.BLL.Implementation
                 .Select(kvp => kvp.Key).ToList();
         }
 
+        /// <summary>
+        /// Returns a list of N top-rated movies, based on average rating descending, and date ascending if two have same rating.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns>A list of movieId's</returns>
         public List<int> GetTopMovies(int amount)
         {
             return _context.Movies
@@ -64,8 +91,15 @@ namespace SDM.MovieRating.BLL.Implementation
                 .Take(amount).Select(kvp => kvp.Key).ToList();
         }
         
+        /// <summary>
+        /// Returns a list of N MovieReviews, that is related to the movie 
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <param name="amount"></param>
+        /// <returns>A list of moviereviews, null if none was found</returns>
         public List<MovieReview> GetListOfReviewers(int movieId, int amount)
         {
+            if (!_context.Movies.ContainsKey(movieId)) return null;
             return _context.Movies[movieId]
                 .OrderByDescending(rev => rev.Rating)
                 .ThenBy(rev => rev.Date)
