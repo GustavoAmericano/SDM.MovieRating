@@ -40,21 +40,21 @@ namespace SDM.MovieRating.BLL.Implementation
 
         public List<int> GetReviewerWithMostReviewes()
         {
-            var pairs = _context.Reviewers.OrderByDescending(rev => rev.Value.Count).ToDictionary(key => key.Key, val => val.Value.Count);
-            
-            List<int> topIds = new List<int>();
-            
-            int topCount = pairs[pairs.Keys.First()];
-            
-            pairs.ToList().ForEach(kv =>
-            {
-                if (kv.Value < topCount) return;
-                else topIds.Add(kv.Key);
-            });
+            var orderedDic = _context.Reviewers
+                .OrderByDescending(x => x.Value.Count);
+            return orderedDic
+                .Where(x => x.Value.Count == orderedDic.First().Value.Count)
+                .Select(kv => kv.Key).ToList();
+        }
 
-            return topIds;
-            
-            
+        public List<MovieReview> GetReviewedMovies(int reviewerId, int amount)
+        {
+            var list =  _context.Reviewers[reviewerId]
+                .OrderByDescending(rev => rev.Rating)
+                .ThenBy(rev => rev.Date)
+                .Take(amount)
+                .ToList();
+            return list;
         }
     }
 }

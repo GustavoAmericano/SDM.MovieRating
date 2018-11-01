@@ -9,5 +9,6 @@ namespace SDM.MovieRating.BLL.Interfaces
         int GetAverageRating(int reviewerId);
         int GetTimesRatingGiven(int reviewerId, int rating);
         List<int> GetReviewerWithMostReviewes();
+        List<MovieReview> GetReviewedMovies(int reviewerId, int amount);
     }
 }

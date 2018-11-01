@@ -45,59 +45,32 @@ namespace SDM.MovieRating.BLL.Implementation
 
         public List<int> GetTopRatedMovies()
         {
-            List<int> movieIds = new List<int>();
-            Dictionary<int, int> movieReview = new Dictionary<int, int>();
-
-            /*
-            _context.Movies.ToList().ForEach(pair =>
-            {
-                movieReview.Add(pair.Key, pair.Value.Count(mov => mov.Rating == 5));
-            });
-            
-            foreach (var pair in movieReview.OrderByDescending(val => val.Value))
-            {
-                movieIds.Add(pair.Value);                
-            }
-
-            return movieIds;
-                */
-
-            /*  
-              var temp = _context.Movies
-                  .OrderByDescending(x => x.Value.Count(y => y.Rating == 5))
-                  //.Take(1)
-                  .ToDictionary(key => key.Key, val => val.Value.Count(i => i.Rating == 5));
-          */
-
-            var pairs = _context.Movies
-                .OrderByDescending(x => x.Value.Count(y => y.Rating == 5))
-                .ToDictionary(key => key.Key, val => val.Value.Count(i => i.Rating == 5));
-
-            List<int> topIds = new List<int>();
-
-            int topCount = pairs[pairs.Keys.First()];
-
-            pairs.ToList().ForEach(kv =>
-            {
-                if (kv.Value < topCount) return;
-                else topIds.Add(kv.Key);
-            });
-
-            return topIds;
+            // Order by single kvp's values which are 5 only
+            // Make into new dictionary and remove all ratings which are not 5.
+            var orderedDic = _context.Movies
+                .OrderByDescending(x => x.Value.Count(rev => rev.Rating == 5))
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Count(x => x.Rating == 5));
+            // Return all keys, which value is equal to the top in the list
+            // (In case there's a shared top)
+            return orderedDic
+                .Where(kvp => kvp.Value == orderedDic.Values.First())
+                .Select(kvp => kvp.Key).ToList();
         }
 
         public List<int> GetTopMovies(int amount)
         {
-            var pairs = _context.Movies
+            return _context.Movies
                 .OrderByDescending(x => x.Value.Sum(y => y.Rating)/x.Value.Count)
-                .Take(amount);
-
-            List<int> topIds = new List<int>();
-
-            pairs.ToList().ForEach(x => topIds.Add(x.Key));
-            return topIds;
-
-
+                .Take(amount).Select(kvp => kvp.Key).ToList();
+        }
+        
+        public List<MovieReview> GetListOfReviewers(int movieId, int amount)
+        {
+            return _context.Movies[movieId]
+                .OrderByDescending(rev => rev.Rating)
+                .ThenBy(rev => rev.Date)
+                .Take(amount)
+                .ToList();
         }
     }
 }

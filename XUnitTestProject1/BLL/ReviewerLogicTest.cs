@@ -40,7 +40,7 @@ namespace MovieRatingTest.BLL
         {
             IReviewerLogic reviewerLogic = GetReviewerLogic();
             int avg = reviewerLogic.GetAverageRating(1);
-            Assert.Equal(7, avg);
+            Assert.Equal(3, avg);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace MovieRatingTest.BLL
         public void GetTimesSameGradingFromReviewerTest()
         {
             IReviewerLogic reviewerLogic = GetReviewerLogic();
-            int count = reviewerLogic.GetTimesRatingGiven(1, 10);
+            int count = reviewerLogic.GetTimesRatingGiven(1, 5);
 
             Assert.Equal(2, count);
         }
@@ -69,6 +69,20 @@ namespace MovieRatingTest.BLL
             Assert.Single(revIds);
             Assert.Equal(2, revIds[0]);
         }
+        
+        //10. On input N, what are the movies that reviewer N has reviewed? The list should
+        //be sorted decreasing by rate first, and date secondly.
+        
+        [Fact]
+        public void GetListOfNReviewedMoviesTest()
+        {
+            IReviewerLogic reviewerLogic = GetReviewerLogic();
+            List<MovieReview> reviews = reviewerLogic.GetReviewedMovies(1,3);
+ 
+            Assert.Equal(3,reviews.Count);
+            Assert.Equal(2, reviews[0].MovieId);
+            Assert.Equal(3, reviews[2].MovieId);
+        }
 
         private IReviewerLogic GetReviewerLogic()
         {
@@ -82,16 +96,16 @@ namespace MovieRatingTest.BLL
         {
             List<MovieReview> reviews = new List<MovieReview>
             {
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 1},
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 2, ReviewerId = 1},
-                new MovieReview() {Date = DateTime.Now, Rating = 1, MovieId = 3, ReviewerId = 1},
-
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 1, ReviewerId = 2},
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 2, ReviewerId = 2},
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 3, ReviewerId = 2},
-                new MovieReview() {Date = DateTime.Now, Rating = 3, MovieId = 4, ReviewerId = 2},
-
-                new MovieReview() {Date = DateTime.Now, Rating = 10, MovieId = 4, ReviewerId = 3},
+                new MovieReview() {Date = DateTime.Now.AddDays(0), Rating = 5, MovieId = 1, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now.AddDays(-3), Rating = 5, MovieId = 2, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now.AddDays(-93), Rating = 1, MovieId = 3, ReviewerId = 1},
+ 
+                new MovieReview() {Date = DateTime.Now.AddDays(-5), Rating = 5, MovieId = 1, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now.AddDays(-392), Rating = 5, MovieId = 2, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now.AddDays(-32), Rating = 5, MovieId = 3, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now.AddDays(-31), Rating = 3, MovieId = 4, ReviewerId = 2},
+ 
+                new MovieReview() {Date = DateTime.Now.AddDays(-2), Rating = 5, MovieId = 4, ReviewerId = 3},
             };
 
 

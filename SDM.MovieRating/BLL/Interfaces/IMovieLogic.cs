@@ -11,5 +11,6 @@ namespace SDM.MovieRating.BLL.Interfaces
         int GetTimesRatingGiven(int movieId, int rating);
         List<int> GetTopRatedMovies();
         List<int> GetTopMovies(int amount);
+        List<MovieReview> GetListOfReviewers(int movieId, int amount);
     }
 }

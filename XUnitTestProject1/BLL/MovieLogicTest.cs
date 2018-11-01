@@ -96,6 +96,20 @@ namespace MovieRatingTest.BLL
 
         }
         
+        
+        //11. On input N, what are the reviewers that have reviewed movie N? The list
+        //should be sorted decreasing by rate first, and date secondly
+        [Fact]
+        public void GetListOfReviewersTest()
+        {
+            IMovieLogic movieLogic = GetMovieLogic();
+            List<MovieReview> reviews = movieLogic.GetListOfReviewers(1, 3);
+ 
+            Assert.Equal(3, reviews.Count);
+            Assert.Equal(4, reviews[0].ReviewerId);
+            Assert.Equal(2, reviews[2].ReviewerId);
+        }
+        
         private IMovieLogic GetMovieLogic()
         {
             var mock = new Mock<IDataContext>();
@@ -108,20 +122,19 @@ namespace MovieRatingTest.BLL
         {
             List<MovieReview> movies = new List<MovieReview>
             {
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 1, ReviewerId = 1},
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 1, ReviewerId = 2},
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 1, ReviewerId = 4},
-
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 2, ReviewerId = 4},
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 2, ReviewerId = 1},
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 2, ReviewerId = 3},
-
-                new MovieReview() {Date = DateTime.Now, Rating = 1, MovieId = 3, ReviewerId = 1},
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 3, ReviewerId = 4},
-
-                new MovieReview() {Date = DateTime.Now, Rating = 5, MovieId = 4, ReviewerId = 3},
+                new MovieReview() {Date = DateTime.Now.AddDays(-283), Rating = 5, MovieId = 1, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now.AddDays(-32), Rating = 5, MovieId = 1, ReviewerId = 2},
+                new MovieReview() {Date = DateTime.Now.AddDays(-900), Rating = 5, MovieId = 1, ReviewerId = 4},
+ 
+                new MovieReview() {Date = DateTime.Now.AddDays(-94), Rating = 5, MovieId = 2, ReviewerId = 4},
+                new MovieReview() {Date = DateTime.Now.AddDays(-842), Rating = 5, MovieId = 2, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now.AddDays(-48), Rating = 5, MovieId = 2, ReviewerId = 3},
+ 
+                new MovieReview() {Date = DateTime.Now.AddDays(0), Rating = 1, MovieId = 3, ReviewerId = 1},
+                new MovieReview() {Date = DateTime.Now.AddDays(-43), Rating = 5, MovieId = 3, ReviewerId = 4},
+ 
+                new MovieReview() {Date = DateTime.Now.AddDays(-43), Rating = 5, MovieId = 4, ReviewerId = 3},
             };
-
 
             Dictionary<int, List<MovieReview>> Movies = new Dictionary<int, List<MovieReview>>();
             foreach (var r in movies)
