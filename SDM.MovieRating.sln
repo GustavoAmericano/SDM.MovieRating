@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDM.MovieRating", "SDM.Movi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRatingTest", "XUnitTestProject1\MovieRatingTest.csproj", "{5A72605C-220A-4228-AE19-86FA80044AF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieReveiwerConsole", "MovieReveiwerConsole\MovieReveiwerConsole.csproj", "{D2037CF8-6A72-4D3E-935F-383C2CA3C98D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5A72605C-220A-4228-AE19-86FA80044AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A72605C-220A-4228-AE19-86FA80044AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A72605C-220A-4228-AE19-86FA80044AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2037CF8-6A72-4D3E-935F-383C2CA3C98D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2037CF8-6A72-4D3E-935F-383C2CA3C98D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2037CF8-6A72-4D3E-935F-383C2CA3C98D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2037CF8-6A72-4D3E-935F-383C2CA3C98D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
